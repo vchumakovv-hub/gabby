@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="fr"> 
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Locations Menton - Votre location de villa idéale à Menton</title> 
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+    integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"
+    integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <style>
+    /* Добавьте свои стили здесь */
+
+    .hero {
+      background-image: url("https://images.unsplash.com/photo-1564501049412-61c2a3083791?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80");
+      /* Замените на URL вашего изображения Villa Gaby */
+      background-size: cover;
+      background-position: center;
+    }
+
+    /* Эффект параллакса для секции "О Villa Gaby" */
+    #about {
+      background-attachment: fixed;
+      background-size: cover;
+    }
+
+    /* Эффект появления с задержкой для заголовков */
+    .section-title {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .section-title.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Контрастный текст в секции hero */
+    .hero h1,
+    .hero p {
+      text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Разделители между секциями */
+    .section-divider {
+      height: 1px;
+      background-color: #ddd;
+      margin: 40px 0;
+    }
+
+    /* Шрифты */
+    body {
+      font-family: 'Roboto', sans-serif; 
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-family: 'Playfair Display', serif; 
+    }
+
+    /* Выделение активных ссылок */
+    .nav-link.active {
+      color: #007bff; 
+      border-bottom: 2px solid #007bff; 
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+  <header class="bg-white py-4 shadow-md fixed w-full z-50">
+    <div class="container mx-auto flex justify-between items-center">
+      <a href="#" class="text-2xl font-bold text-gray-800">Locations Menton</a>
+      <nav>
+        <ul class="flex space-x-6">
+          <li><a href="#about" class="hover:text-blue-500 nav-link">О вилле</a></li>
+          <li><a href="#amenities" class="hover:text-blue-500 nav-link">Удобства</a></li>
+          <li><a href="#location" class="hover:text-blue-500 nav-link">Расположение</a></li>
+          <li><a href="#excursions" class="hover:text-blue-500 nav-link">Экскурсии</a></li>
+          <li><a href="#photos" class="hover:text-blue-500 nav-link">Фото</a></li>
+          <li><a href="#reviews" class="hover:text-blue-500 nav-link">Отзывы</a></li>
+          <li><a href="#booking" class="hover:text-blue-500 nav-link">Бронирование</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <div id="bookingPopup"
+    class="hidden fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
+    <div class="bg-white rounded-lg p-8 max-w-md w-full">
+      <h2 class="text-2xl font-bold mb-4">Забронировать Villa Gaby</h2>
+      <p class="text-gray-700 mb-6">Оставьте заявку, и мы свяжемся с вами в ближайшее время.</p>
+      <form id="bookingForm">
+        <div class="mb-4">
+          <label for="name" class="block text-gray-700 font-bold mb-2">Имя:</label>
+          <input type="text" id="name" name="name"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+        </div>
+        <div class="mb-4">
+          <label for="email" class="block text-gray-700 font-bold mb-2">Email:</label>
+          <input type="email" id="email" name="email"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+        </div>
+        <div class="mb-4">
+          <label for="phone" class="block text-gray-700 font-bold mb-2">Телефон:</label>
+          <input type="tel" id="phone" name="phone"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+        </div>
+        <div class="mb-4">
+          <label for="arrival" class="block text-gray-700 font-bold mb-2">Дата заезда:</label>
+          <input type="date" id="arrival" name="arrival"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+        </div>
+        <div class="mb-4">
+          <label for="departure" class="block text-gray-700 font-bold mb-2">Дата выезда:</label>
+          <input type="date" id="departure" name="departure"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+        </div>
+        <div class="mb-4">
+          <label for="guests" class="block text-gray-700 font-bold mb-2">Количество гостей:</label>
+          <input type="number" id="guests" name="guests"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+        </div>
+        <div class="mb-6">
+          <label for="message" class="block text-gray-700 font-bold mb-2">Дополнительная информация:</label>
+          <textarea id="message" name="message"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
+        </div>
+        <div class="flex items-center justify-between">
+          <button type="submit"
+            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+            Отправить
+          </button>
+          <button type="button" id="closeBookingPopup"
+            class="bg-gray-300 hover:bg-gray-400 text-gray-700 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+            Закрыть
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <section class="hero text-white py-32">
+    <div class="container mx-auto text-center">
+      <h1 class="text-6xl font-bold mb-4">Villa Gaby</h1>
+      <p class="text-2xl mb-12">Votre location de villa idéale à Menton</p> 
+      <button id="bookingButton"
+        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-4 px-8 rounded-full text-xl">
+        Забронировать сейчас 
+      </button>
+    </div>
+  </section>
+
+  <section id="about" class="py-20 bg-gray-100 mt-16">
+    <div class="container mx-auto">
+      <h2 class="text-4xl font-bold mb-8 text-center section-title">À propos de Villa Gaby</h2> 
+      <div class="flex flex-col md:flex-row justify-center items-center">
+        <div class="md:w-1/2 mb-8 md:mb-0 md:pr-16">
+          <p class="text-gray-700 text-lg">
+            Villa Gaby est une luxueuse villa de 4 chambres située au cœur de Menton, à quelques pas de la plage.
+            Elle offre une vue panoramique imprenable sur la mer, un grand jardin paysager, une grande piscine chauffée et
+            une terrasse confortable avec barbecue.
+            La villa est idéale pour des vacances en famille ou une escapade romantique.
+          </p> 
+          <ul class="list-disc list-inside text-lg text-gray-700 mt-6">
+            <li>4 chambres avec climatisation et salle de bain privée</li> 
+            <li>Cuisine entièrement équipée avec appareils modernes</li> 
+            <li>Grand salon avec cheminée et télévision à écran plat</li> 
+            <li>Wi-Fi gratuit, télévision par satellite et parking</li> 
+          </ul>
+        </div>
+        <div class="md:w-1/2">
+          <img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80"
+            alt="Villa Gaby" class="rounded-lg shadow-lg">
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="section-divider"></div>
+
+  <section id="amenities" class="py-20 bg-gray-200">
+    <div class="container mx-auto">
+      <h2 class="text-4xl font-bold mb-8 text-center section-title">Équipements</h2> 
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+        <div class="text-center">
+          <i class="fas fa-swimming-pool text-5xl text-blue-500 mb-4"></i>
+          <h3 class="text-2xl font-bold mb-2">Piscine</h3> 
+          <p class="text-gray-700 text-lg">Rafraîchissez-vous dans notre grande piscine privée chauffée avec vue
+            panoramique sur la mer.</p> 
+        </div>
+
+        <div class="text-center">
+          <i class="fas fa-tree text-5xl text-green-500 mb-4"></i>
+          <h3 class="text-2xl font-bold mb-2">Jardin</h3> 
+          <p class="text-gray-700 text-lg">Profitez du calme et de la tranquillité dans notre jardin paysager avec des
+            plantes exotiques et des coins salons confortables.</p> 
+        </div>
+
+        <div class="text-center">
+          <i class="fas fa-wifi text-5xl text-gray-500 mb-4"></i>
+          <h3 class="text-2xl font-bold mb-2">Wi-Fi</h3>
+          <p class="text-gray-700 text-lg">Restez connecté avec le Wi-Fi haut débit gratuit dans toute la villa.</p> 
+        </div>
+
+        <div class="text-center">
+          <i class="fas fa-parking text-5xl text-gray-500 mb-4"></i>
+          <h3 class="text-2xl font-bold mb-2">Parking</h3>
+          <p class="text-gray-700 text-lg">Parking privé gratuit sur place pour plusieurs voitures.</p> 
+        </div>
+
+        <div class="text-center">
+          <i class="fas fa-concierge-bell text-5xl text-gray-500 mb-4"></i>
+          <h3 class="text-2xl font-bold mb-2">Service de conciergerie</h3> 
+          <p class="text-gray-700 text-lg">Notre concierge vous aidera à organiser des excursions, à réserver des
+            restaurants et à répondre à d'autres demandes.</p> 
+        </div>
+
+        <div class="text-center">
+          <i class="fas fa-utensils text-5xl text-gray-500 mb-4"></i>
+          <h3 class="text-2xl font-bold mb-2">Espace barbecue</h3> 
+          <p class="text-gray-700 text-lg">Passez une agréable soirée entre amis et en famille en préparant un barbecue en
+            plein air.</p> 
+        </div>
+
+      </div>
+    </div>
+  </section>
+  <div class="section-divider"></div>
+
+  <section id="location" class="py-20 bg-gray-100">
+    <div class="container mx-auto text-center">
+      <h2 class="text-4xl font-bold mb-8 section-title">Emplacement</h2> 
+      <p class="text-gray-700 text-lg mb-4">Villa Gaby est située au 18 Promenade du Val de Menton, dans un quartier
+        pittoresque de Menton, à quelques minutes à pied de la plage, des commerces et des restaurants.</p> 
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2883.9218733883.921873387288!2d7.514597315366623!3d43.78340347911943!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12cdc5059431724d%3A0x79b0208286409f7f!2s18%20Promenade%20du%20Val%20de%20Menton%2C%2006500%20Menton%2C%20France!5e0!3m2!1sen!2sua!4v1702685653867!5m2!1sen!2sua"
+        width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+  </section>
+  <div class="section-divider"></div>
+
+  <section id="excursions" class="py-20 bg-gray-200">
+    <div class="container mx-auto text-center">
+      <h2 class="text-4xl font-bold mb-8 section-title">Excursions</h2> 
+      <p class="text-gray-700 text-lg mb-4">Menton et ses environs offrent une grande variété d'excursions intéressantes.
+        Nous pouvons organiser pour vous les options suivantes:</p> 
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div>
+          <h3 class="text-xl font-bold mb-2">Menton historique</h3> 
+          <p class="text-gray-700">Plongez dans le riche patrimoine historique de Menton en visitant la vieille ville, les
+            musées et autres sites touristiques.</p> 
+        </div>
+        <div>
+          <h3 class="text-xl font-bold mb-2">Jardins de citronniers</h3> 
+          <p class="text-gray-700">Découvrez les citronniers uniques de Menton, célèbres pour leurs fruits parfumés et
+            leurs paysages pittoresques.</p> 
+        </div>
+        <div>
+          <h3 class="text-xl font-bold mb-2">Côte d'Azur</h3> 
+          <p class="text-gray-700">Profitez d'une excursion en yacht inoubliable le long de la Côte d'Azur, en visitant des
+            villes et des baies pittoresques.</p> 
+        </div>
+        <div>
+          <h3 class="text-xl font-bold mb-2">Monaco</h3>
+          <p class="text-gray-700">Plongez dans le luxe et le glamour de Monaco en visitant le célèbre casino, le palais et
+            autres attractions de la principauté.</p> 
+        </div>
+        <div>
+          <h3 class="text-xl font-bold mb-2">Nice</h3>
+          <p class="text-gray-700">Explorez la ville animée de Nice, célèbre pour ses plages, sa promenade et ses
+            attractions culturelles.</p> 
+        </div>
+        <div>
+          <h3 class="text-xl font-bold mb-2">Excursions individuelles</h3> 
+          <p class="text-gray-700">Nous pouvons également organiser des excursions individuelles en fonction de vos
+            intérêts, telles que des visites gastronomiques, des randonnées en montagne ou des visites de galeries
+            d'art.</p> 
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="section-divider"></div>
+
+  <section id="photos" class="py-20 bg-gray-100">
+    <div class="container mx-auto">
+      <h2 class="text-4xl font-bold mb-8 text-center section-title">Photos</h2> 
+      <div class="owl-carousel owl-theme">
+        <div class="item"><img src="https://images.unsplash.com/photo-1564501049412-61c2a3083791?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80"
+            alt="Vue sur la mer depuis la terrasse de la Villa Gaby" class="rounded-lg shadow-lg w-full h-64 object-cover">
+        </div>
+        <div class="item"><img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80"
+            alt="Intérieur de la Villa Gaby" class="rounded-lg shadow-lg w-full h-64 object-cover"></div>
+        <div class="item"><img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1742&q=80"
+            alt="Chambre de la Villa Gaby" class="rounded-lg shadow-lg w-full h-64 object-cover"></div>
+        <div class="item"><img src="https://images.unsplash.com/photo-1602343169370-947ae08ce18f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80"
+            alt="Piscine de la Villa Gaby" class="rounded-lg shadow-lg w-full h-64 object-cover"></div>
+      </div>
+    </div>
+  </section>
+  <div class="section-divider"></div>
+
+  <section id="reviews" class="py-20 bg-gray-100">
+    <div class="container mx-auto">
+      <h2 class="text-4xl font-bold mb-8 text-center section-title">Avis de nos clients</h2> 
+      <div class="flex flex-wrap justify-center">
+        <div class="w-full md:w-1/2 lg:w-1/3 px-4 mb-8">
+          <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-200">
+            <img src="https://images.unsplash.com/photo-1502784444187-359ac186c5bb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80"
+              alt="Anna et Sergey" class="rounded-full w-16 h-16 object-cover mb-4"> 
+            <p class="text-gray-700 text-lg">"Nous avons passé une semaine inoubliable à la Villa Gaby ! La villa a
+              dépassé toutes nos attentes. Chambres spacieuses, vue magnifique, belle piscine et jardin - tout était
+              parfait. Un merci spécial pour l'organisation de l'excursion à Monaco, c'était incroyable ! Nous reviendrons
+              sûrement ici."</p> 
+            <p class="text-gray-600 mt-2">- Anna et Sergey, Moscou</p>
+          </div>
+        </div>
+        <div class="w-full md:w-1/2 lg:w-1/3 px-4 mb-8">
+          <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-200">
+            <img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80"
+              alt="La famille Petrovy" class="rounded-full w-16 h-16 object-cover mb-4"> 
+            <p class="text-gray-700 text-lg">"Villa Gaby est l'endroit idéal pour des vacances en famille ! Nos enfants
+              ont adoré la piscine et le jardin, et nous avons apprécié le calme et la tranquillité. La villa est très
+              confortable et chaleureuse, avec tout le nécessaire pour vivre. Nous avons passé un merveilleux moment et
+              recommandons vivement Villa Gaby à tous !"</p> 
+            <p class="text-gray-600 mt-2">- La famille Petrovy, Saint-Pétersbourg</p> 
+          </div>
+        </div>
+        <div class="w-full md:w-1/2 lg:w-1/3 px-4 mb-8">
+          <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-200">
+            <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1742&q=80"
+              alt="Olga, Ekaterina, Irina" class="rounded-full w-16 h-16 object-cover mb-4"> 
+            <p class="text-gray-700 text-lg">"Nous avons séjourné à la Villa Gaby avec un groupe d'amis et nous avons été
+              ravis ! La villa est spacieuse, avec de nombreuses chambres et salles de bains. Le coin barbecue est tout
+              simplement génial ! Nous avons passé nos soirées sur la terrasse à admirer le coucher de soleil et la vue sur
+              la mer. Merci pour ce super séjour !"</p> 
+            <p class="text-gray-600 mt-2">- Olga, Ekaterina, Irina, Moscou</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="booking" class="py-20 bg-gray-200">
+    <div class="container mx-auto text-center">
+      <h2 class="text-4xl font-bold mb-8 section-title">Réservez Villa Gaby aujourd'hui !</h2> 
+      <p class="text-gray-700 text-lg mb-8">Contactez-nous pour en savoir plus sur les dates disponibles et les tarifs.
+      </p> 
+      <a href="#" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-4 px-8 rounded-full text-xl">
+        Contactez-nous 
+      </a>
+    </div>
+  </section>
+
+  <footer class="bg-gray-800 text-white py-6 mt-16">
+    <div class="container mx-auto text-center">
+      <p>© 2023 Tous droits réservés</p> 
+    </div>
+  </footer>
+
+  <script>
+    $('.owl-carousel').owlCarousel({
+      loop: true,
+      margin: 10,
+      autoplay: true,
+      autoplayTimeout: 3000,
+      autoplaySpeed: 1000,
+      responsive: {
+        0: {
+          items: 1
+        },
+        640: {
+          items: 2
+        },
+        768: {
+          items: 3
+        },
+        1024: {
+          items: 4
+        }
+      }
+    })
+
+    // Показать попап при клике на кнопку
+    $('#bookingButton').click(function () {
+      $('#bookingPopup').removeClass('hidden');
+    });
+
+    // Закрыть попап при клике на кнопку "Закрыть" или вне попапа
+    $('#closeBookingPopup, #bookingPopup').click(function (event) {
+      if (event.target === this) {
+        $('#bookingPopup').addClass('hidden');
+      }
+    });
+  </script>
+
+  <script>
+    $(document).ready(function () {
+      // Эффект появления секций при прокрутке
+      $(window).scroll(function () {
+        $('.section-title').each(function () {
+          if ($(window).scrollTop() > $(this).offset().top - 400) {
+            $(this).addClass('show');
+          }
+        });
+      });
+
+      // Эффект активной секции в меню
+      $(window).scroll(function () {
+        $('section').each(function () {
+          if ($(window).scrollTop() >= $(this).offset().top - 80) {
+            var id = $(this).attr('id');
+            $('.nav-link').removeClass('active');
+            $('a[href="#' + id + '"]').addClass('active');
+          }
+        });
+      });
+    });
+  </script>
+
+</body>
+
+</html>
